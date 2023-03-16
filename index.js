@@ -3,7 +3,9 @@ const cors = require('cors')
 const path = require('path')
 
 const server = jsonServer.create()
-const router = jsonServer.router(path.join(__dirname, 'database.json'))
+const fs = require('fs')
+const db = JSON.parse(fs.readFileSync(path.join(__dirname, 'db.json')))
+const router = jsonServer.router(db)
 const middlewares = jsonServer.defaults()
 
 server.use(cors())
@@ -11,7 +13,7 @@ server.use(jsonServer.bodyParser)
 server.use(middlewares)
 server.use(router)
 
-const PORT = 3001
+const PORT = 8000
 
 server.listen(PORT, () => {
   console.log(`JSON Server is running on http://localhost:${PORT}`)
